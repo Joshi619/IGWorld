@@ -1,0 +1,50 @@
+/* 
+  Localizable.strings
+  IGWorld
+
+  Created by ADITYA on 27/09/24.
+  
+*/
+// MARK: - Common Content
+"Are you sure want to upload?" = "Are you sure want to upload?";
+"Yes" = "Yes";
+"No" = "No";
+"Okay" = "Okay";
+"Ok" = "Ok";
+"Are you sure want to delete?" = "Are you sure want to delete?";
+"Deleting...." = "Deleting....";
+"Please select atleast one." = "Please select atleast one.";
+"Downloading Completed" = "Downloading Completed";
+"Choose a options" = "Choose a options";
+"Cancel" = "Cancel";
+"Choose Camera" = "Choose Camera";
+"Take from Photos" = "Take from Photos";
+"Take from Videos" = "Take from Videos";
+"Photo from Camera" = "Photo from Camera";
+"Video from Camera" = "Video from Camera";
+"Only Photos" = "Only Photos";
+"Only Videos" = "Only Videos";
+"Select all" = "Select all";
+"In development!" = "In development!";
+"This component isn't ready" = "This component isn't ready";
+"Edit" = "Edit";
+"Copied" = "Copied";
+"Help" = "Help";
+"First name" = "First name";
+"Last name" = "Last name";
+"Phone number" = "Phone number";
+"E-mail"  = "E-mail";
+"Current Password" = "Current Password";
+"New Password" = "New Password";
+"Confirm Password" = "Confirm Password";
+"Enter Current Password" = "Enter Current Password";
+"Enter New Password" = "Enter New Password";
+"To change the current password, enter the new password in both fields." = "To change the current password, enter the new password in both fields.";
+"Warning" = "Warning";
+"You don't have camera" = "You don't have camera";
+
+"Photos" = "Photos";
+"Videos" = "Videos";
+
+// MARK: - Titles
+"Gallery" = "Gallery";

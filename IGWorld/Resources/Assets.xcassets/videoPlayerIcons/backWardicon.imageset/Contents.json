@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "noto-v1_fast-reverse-button-4.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "noto-v1_fast-reverse-button-5.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "noto-v1_fast-reverse-button-6.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

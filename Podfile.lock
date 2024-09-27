@@ -1,0 +1,50 @@
+PODS:
+  - ActionSheetPicker-3.0 (2.7.4)
+  - Alamofire (5.9.1)
+  - IQKeyboardManagerSwift (7.1.1)
+  - LGSideMenuController (3.1.2)
+  - MBProgressHUD (1.2.0)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
+  - SkeletonView (1.30.4)
+  - SwiftLint (0.57.0)
+  - SwiftyJSON (5.0.2)
+
+DEPENDENCIES:
+  - ActionSheetPicker-3.0
+  - Alamofire
+  - IQKeyboardManagerSwift
+  - LGSideMenuController
+  - MBProgressHUD
+  - SDWebImage (~> 5.10.4)
+  - SkeletonView
+  - SwiftLint
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - ActionSheetPicker-3.0
+    - Alamofire
+    - IQKeyboardManagerSwift
+    - LGSideMenuController
+    - MBProgressHUD
+    - SDWebImage
+    - SkeletonView
+    - SwiftLint
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: a380d57270b6b2d321c4add024ba5c466a7f5cfd
+  Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
+  IQKeyboardManagerSwift: d7f3d3a562c237a0e7335e657cd598c452f57f1b
+  LGSideMenuController: 0c7b155b0dbdf14bf8b88d5ac363c5fe1584bb23
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
+  SkeletonView: 5a050f6411e697abd4cda0a8d767013399dccd69
+  SwiftLint: eb47480d47c982481592c195c221d11013a679cc
+  SwiftyJSON: f5b1bf1cd8dd53cd25887ac0eabcfd92301c6a5a
+
+PODFILE CHECKSUM: e3e436aa671e9fd64ee8eb2b016619cbbafd33a1
+
+COCOAPODS: 1.15.2
