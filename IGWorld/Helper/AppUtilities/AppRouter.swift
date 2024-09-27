@@ -24,9 +24,9 @@ enum AppRouter {
         let mainViewController = HomeViewController.instantiate(fromAppStoryboard: .Main)
 
         let nvc = UINavigationController(rootViewController: mainViewController)
-        nvc.isNavigationBarHidden = true
+        nvc.isNavigationBarHidden = false
         
-        sceneDelegate.window?.rootViewController =  mainViewController
+        sceneDelegate.window?.rootViewController =  nvc
         sceneDelegate.window?.becomeKey()
         sceneDelegate.window?.makeKeyAndVisible()
     }

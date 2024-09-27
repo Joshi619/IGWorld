@@ -6,12 +6,11 @@
 //
 
 import UIKit
-
-class HomeViewController: UIViewController {
+import SDWebImage
+class HomeViewController: BaseVC {
     let viewModel = HomeViewModel()
-    
-    // CollectionView setup
-    var collectionView: UICollectionView!
+
+    @IBOutlet weak var gridCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,33 +18,43 @@ class HomeViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    
     func setupUI() {
+        self.title = LocalizedString.appTitle.localized
         viewModel.delegate = self
         
         // Initialize and configure the collection view
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 100, height: 100) // Size for each item
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
-        
-        collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .white
+//        let layout = UICollectionViewFlowLayout()
+//        layout.itemSize = CGSize(width: 100, height: 100) // Size for each item
+//        layout.minimumInteritemSpacing = 5
+//        layout.minimumLineSpacing = 5
+//
+        guard Reachability.isConnectedToNetwork() else {
+            Alert.alert(message: AppConstant.lostConnectionMessage, self)
+            return
+        }
+        gridCollectionView.delegate = self
+        gridCollectionView.dataSource = self
+        gridCollectionView.backgroundColor = .white
         
         // Register custom cell
-        collectionView.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryCell.identifier)
-        
-        // Add collection view to the view hierarchy
-        view.addSubview(collectionView)
-        
+        gridCollectionView.register(UINib(nibName: GalleryCell.identifier, bundle: nil), forCellWithReuseIdentifier: GalleryCell.identifier)
+        gridCollectionView.reloadData()
         viewModel.myGallaryAPI()
     }
 }
 
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    // Number of items (images) in section
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.imageslist.count
     }
@@ -54,26 +63,46 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCell.identifier, for: indexPath) as? GalleryCell else { return UICollectionViewCell() }
         if let url = viewModel.imageslist[indexPath.row].thumbnailURL {
-            cell.imageView.sd_setImage(with: URL(string: url)) // Load the image from assets
+            cell.pictureView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "no_thumbnail"))
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: gridCollectionView.frame.width/4, height: gridCollectionView.frame.width/4)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        openImagePreview(indexPath: indexPath)
     }
 }
 
 // MARK: - Other Controller
 extension HomeViewController {
     private func openImagePreview(indexPath: IndexPath) { // open the detail screen.
-//        let imagePreview = ALImageGalleryViewController(images: [previewView.image ?? UIImage()], delegate: self)
-//        imagePreview.modalTransitionStyle = .crossDissolve
-//        imagePreview.modalPresentationStyle = .fullScreen
-//        self.present(imagePreview, animated: true, completion: nil)
+        let detailVC = GalleryPreviewVC.instantiate(fromAppStoryboard: .Main)
+        detailVC.viewModel = viewModel
+        detailVC.selectedIndex = indexPath.item
+        self.navigationController?.pushViewController(detailVC, animated: true)
         
     }
 }
 
 extension HomeViewController: HomeViewModelDelegate {
     func gallaryAPISucess() {
-        collectionView.reloadData()
+        gridCollectionView.reloadData()
     }
     
     func gallaryAPIFailure(_ message: String) {
