@@ -93,15 +93,22 @@ extension GalleryPreviewVC {
     
     // MARK: - Sharing activity
     fileprivate func openActivityIndicator() {
-        var textToShare = ["Check out my imagery shared from IGWorld"]
+        var textToShare = [Any]()
         let imgURL = viewModel.imageslist[self.selectedIndex].url ?? ""
-        if let delegate = UIApplication.shared.delegate as? AppDelegate {
-            if delegate.server == .production {
-                textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)"]
-            } else {
-                textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)"]
+        SDWebImageManager.shared.loadImage(with: URL(string: imgURL), progress: nil, completed: { image, data, error, cache, status, url in
+            guard error == nil, let image = image else {
+                Alert.alert(message: LocalizedString.somethingWentWrong.localized, self)
+                return
             }
-        }
+            if let delegate = UIApplication.shared.delegate as? AppDelegate {
+                if delegate.server == .production {
+                    textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)", image]
+                } else {
+                    textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)", image]
+                }
+            }
+        })
+        
         
         let activityVC = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
         
@@ -109,9 +116,9 @@ extension GalleryPreviewVC {
         
         // New Excluded Activities Code
         if #available(iOS 9.0, *) {
-            activityVC.excludedActivityTypes = [ .addToReadingList, .assignToContact, .copyToPasteboard, .openInIBooks, .postToTencentWeibo, .postToVimeo, .postToWeibo, .assignToContact, .openInIBooks, .markupAsPDF]
+            activityVC.excludedActivityTypes = [ .addToReadingList, .assignToContact, .copyToPasteboard, .openInIBooks, .postToTencentWeibo, .postToVimeo, .postToWeibo, .assignToContact, .openInIBooks, .markupAsPDF,.saveToCameraRoll]
         } else {
-            activityVC.excludedActivityTypes = [ .addToReadingList, .assignToContact, .copyToPasteboard, .openInIBooks, .postToTencentWeibo, .postToVimeo, .postToWeibo, .assignToContact, .openInIBooks, .markupAsPDF]
+            activityVC.excludedActivityTypes = [ .addToReadingList, .assignToContact, .copyToPasteboard, .openInIBooks, .postToTencentWeibo, .postToVimeo, .postToWeibo, .assignToContact, .openInIBooks, .markupAsPDF,.saveToCameraRoll]
         }
         self.present(activityVC, animated: true)
     }
@@ -142,8 +149,9 @@ extension GalleryPreviewVC: UICollectionViewDelegate, UICollectionViewDataSource
             selectedIndex = indexPath.item
             self.title = viewModel.imageslist[indexPath.item].title
             previewCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        } else {	
+        } else {
             selectedIndex = indexPath.item
+            self.title = viewModel.imageslist[indexPath.item].title
             clickOnImage(index: selectedIndex)
         }
     }
@@ -152,8 +160,8 @@ extension GalleryPreviewVC: UICollectionViewDelegate, UICollectionViewDataSource
         if scrollView == previewCollectionView {
             for cell in previewCollectionView.visibleCells {
                 if let row = previewCollectionView.indexPath(for: cell)?.item {
-                    print(row)
                     selectedIndex = row
+                    self.title = viewModel.imageslist[row].title
                     listCollectionView.scrollToItem(at: IndexPath(item: row, section: 0), at: .centeredHorizontally, animated: true)
                 }
             }
