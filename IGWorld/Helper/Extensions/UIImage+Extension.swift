@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import SDWebImage
 import AVFoundation
 
 extension UIImage {
@@ -83,10 +82,14 @@ extension UIImage {
 }
 
 extension UIImageView {
-    func imageFromUrl(url: String) {
-        self.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "dummy_Profile"))
+    func setImageFrom(url: String, index: Int, completion: @escaping (UIImage?, Int) -> Void) {
+        let url = NSURL(string: url) ?? NSURL()
+        ImageLoader.shared.load(url, index: index, completion: completion)
     }
     
+    func cancelRequest(index: Int) {
+        ImageLoader.shared.cancel(for: index)
+    }
 }
 
 // MARK: - TableView

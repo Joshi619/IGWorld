@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 class GalleryPreviewVC: BaseVC {
     
@@ -94,20 +93,19 @@ extension GalleryPreviewVC {
     // MARK: - Sharing activity
     fileprivate func openActivityIndicator() {
         var textToShare = [Any]()
-        let imgURL = viewModel.imageslist[self.selectedIndex].url ?? ""
-        SDWebImageManager.shared.loadImage(with: URL(string: imgURL), progress: nil, completed: { image, data, error, cache, status, url in
-            guard error == nil, let image = image else {
-                Alert.alert(message: LocalizedString.somethingWentWrong.localized, self)
-                return
-            }
-            if let delegate = UIApplication.shared.delegate as? AppDelegate {
+        guard let imgURL = NSURL(string: viewModel.imageslist[self.selectedIndex].url ?? "") else {
+            Alert.alert(message: LocalizedString.somethingWentWrong.localized, self)
+            return
+        }
+        ImageLoader.shared.load(imgURL, index: 0) { image, Index in
+            if let image = image, let delegate = UIApplication.shared.delegate as? AppDelegate {
                 if delegate.server == .production {
                     textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)", image]
                 } else {
                     textToShare = [ "Check out my imagery shared from IGWorld \n \(imgURL)", image]
                 }
             }
-        })
+        }
         
         
         let activityVC = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
@@ -132,7 +130,12 @@ extension GalleryPreviewVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePreviewCell.identifier, for: indexPath) as? ImagePreviewCell else { return UICollectionViewCell() }
-        cell.filltheData(viewModel.imageslist[indexPath.item])
+        if let url = collectionView == self.previewCollectionView ? viewModel.imageslist[indexPath.item].url : viewModel.imageslist[indexPath.item].thumbnailURL {
+            cell.galleryImageView.setImageFrom(url: url, index: indexPath.item) { image, index in
+                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ImagePreviewCell
+                cell?.galleryImageView.image = image
+            }
+        }
         return cell
     }
     
@@ -173,16 +176,12 @@ extension GalleryPreviewVC: UICollectionViewDelegate, UICollectionViewDataSource
 extension GalleryPreviewVC: HomeViewModelDelegate {
     func clickOnImage(index: Int) {
         if let url = URL(string: viewModel.imageslist[index].url ?? "") {
-            SDWebImageManager.shared.loadImage(with: url, progress: nil, completed: { image, data, error, cache, status, url in
-                guard error == nil, let image = image else {
-                    Alert.alert(message: LocalizedString.somethingWentWrong.localized, self)
-                    return
-                }
-                let imagePreview = ALImageGalleryViewController(images: [image])
+            ImageLoader.shared.load(url as NSURL, index: 0) { image, index in
+                let imagePreview = ALImageGalleryViewController(images: [image ?? UIImage()])
                 imagePreview.modalTransitionStyle = .crossDissolve
                 imagePreview.modalPresentationStyle = .fullScreen
                 self.present(imagePreview, animated: true, completion: nil)
-            })
+            }
         }
     }
 }

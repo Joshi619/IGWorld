@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SDWebImage
+
 class HomeViewController: BaseVC {
     let viewModel = HomeViewModel()
 
@@ -63,7 +63,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCell.identifier, for: indexPath) as? GalleryCell else { return UICollectionViewCell() }
         if let url = viewModel.imageslist[indexPath.row].thumbnailURL {
-            cell.pictureView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "no_thumbnail"))
+            cell.pictureView.setImageFrom(url: url, index: indexPath.item) { image, index in
+                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GalleryCell
+                cell?.pictureView.image = image
+            }
         }
         return cell
     }

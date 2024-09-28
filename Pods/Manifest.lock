@@ -1,5 +1,4 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.7.4)
   - Alamofire (5.9.1)
   - IQKeyboardManagerSwift (7.1.1)
   - LGSideMenuController (3.1.2)
@@ -12,7 +11,6 @@ PODS:
   - SwiftyJSON (5.0.2)
 
 DEPENDENCIES:
-  - ActionSheetPicker-3.0
   - Alamofire
   - IQKeyboardManagerSwift
   - LGSideMenuController
@@ -24,7 +22,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - ActionSheetPicker-3.0
     - Alamofire
     - IQKeyboardManagerSwift
     - LGSideMenuController
@@ -35,7 +32,6 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: a380d57270b6b2d321c4add024ba5c466a7f5cfd
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   IQKeyboardManagerSwift: d7f3d3a562c237a0e7335e657cd598c452f57f1b
   LGSideMenuController: 0c7b155b0dbdf14bf8b88d5ac363c5fe1584bb23
@@ -45,6 +41,6 @@ SPEC CHECKSUMS:
   SwiftLint: eb47480d47c982481592c195c221d11013a679cc
   SwiftyJSON: f5b1bf1cd8dd53cd25887ac0eabcfd92301c6a5a
 
-PODFILE CHECKSUM: e3e436aa671e9fd64ee8eb2b016619cbbafd33a1
+PODFILE CHECKSUM: 69bde7e2ce6d7ea366bda8ea524ae1ae1a7d129b
 
 COCOAPODS: 1.15.2

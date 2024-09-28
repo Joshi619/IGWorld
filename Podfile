@@ -10,7 +10,6 @@ target 'IGWorld' do
   pod 'IQKeyboardManagerSwift'
   pod 'MBProgressHUD'
   pod 'SwiftLint'
-  pod 'ActionSheetPicker-3.0'
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'LGSideMenuController'

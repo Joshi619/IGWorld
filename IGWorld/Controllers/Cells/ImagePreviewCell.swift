@@ -16,6 +16,7 @@ class ImagePreviewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        playImageView.isHidden = true
     }
 
     func filltheData(_ model: ImageInfo) {
